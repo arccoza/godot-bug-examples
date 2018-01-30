@@ -9,4 +9,4 @@ passed to the constructor were, and what the constructor did with them,
 so `duplicate()` can't construct a copy of the custom node. 
 But there really should be some mention of this in the docs, for `duplicate()` and 
 custom nodes / plugins. And at least a warning should be emitted when duplicating this 
-kind of node.
+kind of node, if not an error.
