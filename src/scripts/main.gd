@@ -10,6 +10,7 @@ func _ready():
 	# It has one modified export value, and one script.
 	node = $Sprite
 	node.test = "NEW VALUE 1"
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -19,6 +20,7 @@ func _ready():
 	# Duplicate the scripted node, and check for exports and scripts.
 	# It has the same modified export value and script.
 	node = node.duplicate()
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -29,6 +31,7 @@ func _ready():
 	# It has one modified export value, and one script.
 	node = CustomWithoutArgs.new()
 	node.test = "NEW VALUE 2"
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -38,6 +41,7 @@ func _ready():
 	# Duplicate the custom node, and check for exports and scripts.
 	# It has the same modified export value and script.
 	node = node.duplicate()
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -48,6 +52,7 @@ func _ready():
 	# It has one modified export value, and one script.
 	node = CustomWithOptionalArgs.new("p")
 	node.test = "NEW VALUE 3"
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -57,6 +62,7 @@ func _ready():
 	# Duplicate the custom node, and check for exports and scripts.
 	# It has the same modified export value and script.
 	node = node.duplicate()
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -67,6 +73,7 @@ func _ready():
 	# It has one modified export value, and one script.
 	node = CustomWithRequiredArgs.new("p")
 	node.test = "NEW VALUE 4"
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
@@ -76,6 +83,7 @@ func _ready():
 	# Duplicate the custom node, and check for exports and scripts.
 	# Checks fail, cannot duplicate a node that requires constructor args.
 	node = node.duplicate()
+	print(node)
 	print(node.get_script())
 	print(node.test)
 	node.hello()
