@@ -1,119 +1,49 @@
 extends Node
 
+var node = null
+var rate = 0.1
+var rate_timer = 0
+var period = 0.2
+var period_timer = 0
+
 
 func _ready():
-	var node = null
-	
-	print("\n----Original standard node----\n")
-	
-	# Check the scripted node for exports and scripts.
-	# It has one modified export value, and one script.
 	node = $Sprite
-	node.test = "NEW VALUE 1"
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
+	remove_child(node)
+
+func _physics_process(delta):
+	for c in get_children():
+		c.tick(delta)
 	
-	print("\n----Duplicated standard node----\n")
+	rate_timer += delta
 	
-	# Duplicate the scripted node, and check for exports and scripts.
-	# It has the same modified export value and script.
-	node = node.duplicate()
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
+	if rate_timer >= rate:
+		var dup = node.duplicate()
+		var mis = Missile2D.new(dup)
+#		mis.add_child(dup)
+		add_child(mis)
+		rate_timer -= rate
 	
-	print("\n----Original CustomWithoutArgs node----\n")
-	
-	# Check the custom node for exports and scripts.
-	# It has one modified export value, and one script.
-	node = CustomWithoutArgs.new()
-	node.test = "NEW VALUE 2"
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
-	
-	print("\n----Duplicated CustomWithoutArgs node----\n")
-	
-	# Duplicate the custom node, and check for exports and scripts.
-	# It has the same modified export value and script.
-	node = node.duplicate()
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
-	
-	print("\n----Original CustomWithOptionalArgs node----\n")
-	
-	# Check the custom node for exports and scripts.
-	# It has one modified export value, and one script.
-	node = CustomWithOptionalArgs.new("p")
-	node.test = "NEW VALUE 3"
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
-	
-	print("\n----Duplicated CustomWithOptionalArgs node----\n")
-	
-	# Duplicate the custom node, and check for exports and scripts.
-	# It has the same modified export value and script.
-	node = node.duplicate()
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
-	
-	print("\n----Original CustomWithRequiredArgs node----\n")
-	
-	# Check the custom node for exports and scripts.
-	# It has one modified export value, and one script.
-	node = CustomWithRequiredArgs.new("p")
-	node.test = "NEW VALUE 4"
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
-	
-	print("\n----Duplicated CustomWithRequiredArgs node----\n")
-	
-	# Duplicate the custom node, and check for exports and scripts.
-	# Checks fail, cannot duplicate a node that requires constructor args.
-	node = node.duplicate()
-	print(node)
-	print(node.get_script())
-	print(node.test)
-	node.hello()
+#	period_timer += delta
+#
+#	if period_timer >= period:
+#		print("remove")
+#		get_child(0).queue_free()
+#		period_timer -= period
 
 
-class CustomWithoutArgs extends Node2D:
-	export var test = "TEST"
+class Missile2D extends Node2D:
+	var time = 0
+	var lifetime = 2.0
 	
-	func _init():
-		pass
 	
-	func hello():
-		print("hello")
-
-
-class CustomWithOptionalArgs extends Node2D:
-	export var test = "TEST"
+	func _init(n):
+		add_child(n)
 	
-	func _init(p=null):
-		pass
-	
-	func hello():
-		print("hello")
-
-
-class CustomWithRequiredArgs extends Node2D:
-	export var test = "TEST"
-	
-	func _init(p):
-		pass
-	
-	func hello():
-		print("hello")
+	func tick(delta):
+		time += delta
+		
+		if time >= lifetime:
+			queue_free()
+		else:
+			position += Vector2(2, 0)
