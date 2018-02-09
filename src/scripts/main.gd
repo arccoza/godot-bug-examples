@@ -53,6 +53,7 @@ class Missile2D extends Node2D:
 		time += delta
 		
 		if time >= lifetime:
+#			get_parent().remove_child(self)
 			queue_free()
 		else:
 			position += Vector2(200, 0) * delta
